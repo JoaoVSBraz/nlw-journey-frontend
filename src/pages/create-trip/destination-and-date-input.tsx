@@ -8,14 +8,19 @@ import "react-day-picker/dist/style.css";
 interface DestinationAndDateInputProps {
     isGuestsInputVisible: boolean;
     handleGuestsInput: () => void;
+    setDestination: (destination: string) => void;
+    eventStartAndEndDate: DateRange | undefined;
+    setEventStartAndEndDate: (dates: DateRange | undefined) => void;
 }
 
 export default function DestinationAndDateInput({
     isGuestsInputVisible,
     handleGuestsInput,
+    setDestination,
+    eventStartAndEndDate,
+    setEventStartAndEndDate
 }: DestinationAndDateInputProps) {
-    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-    const [eventStartAndEndDate, setEventStartAndEndDate] = useState<DateRange | undefined>();
+    const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);    
     const displayedDate = eventStartAndEndDate && eventStartAndEndDate.from && eventStartAndEndDate.to && eventStartAndEndDate.to ? format(eventStartAndEndDate.from, "d 'de' LLL").concat(' até ').concat(format(eventStartAndEndDate.to, "d 'de' LLL")) : null;
 
     const handleIsDatePickerOpen = () => { setIsDatePickerOpen(!isDatePickerOpen); };
@@ -25,7 +30,13 @@ export default function DestinationAndDateInput({
 
             <div className='flex items-center gap-2 flex-1'>
                 <MapPin className='size-5 text-zinc-400' />
-                <input disabled={isGuestsInputVisible} type="text" name="" id="" placeholder="Para onde você vai?" className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1" />
+                <input 
+                    disabled={isGuestsInputVisible} 
+                    type="text"                      
+                    placeholder="Para onde você vai?" 
+                    className="bg-transparent text-lg placeholder-zinc-400 outline-none flex-1"
+                    onChange={event => setDestination(event.target.value)} 
+                />
             </div>
 
             <button
