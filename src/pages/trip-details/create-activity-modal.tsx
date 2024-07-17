@@ -1,11 +1,37 @@
 import { Calendar, Tag, X } from "lucide-react";
 import Button from "../../components/Button";
+import { FormEvent } from "react";
+import { api } from "../../config/axios";
+import { useParams } from "react-router-dom";
 
 interface CreateActivityModalProps {
     handleCreateActivity: () => void;
 }
 
 export default function CreateActivityModal({ handleCreateActivity }: CreateActivityModalProps) {
+    const { tripId } = useParams();
+
+    async function createActivity(event: FormEvent<HTMLFormElement>){
+        event.preventDefault();        
+
+        const data = new FormData(event.currentTarget)
+        const options = {
+            title: data.get('title')?.toString(),
+            occurs_at: data.get('occurs_at')?.toString()
+        }        
+
+        if(!options.title) throw new Error('Título não informado');
+        if(!options.occurs_at) throw new Error('Data não informada');        
+        
+        try {
+           await api.post(`/trips/${tripId}/activities`, options);
+           handleCreateActivity();          
+        } catch (error) {
+            console.log(error);
+        }
+        
+    }
+
     return (
         <div className='fixed inset-0 bg-black/60 flex items-center justify-center'>
             <div className='w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5'>
@@ -19,12 +45,11 @@ export default function CreateActivityModal({ handleCreateActivity }: CreateActi
                     <p className='text-sm text-zinc-400'>Todos convidados podem visualizar as atividades.</p>
                 </div>
 
-                <form className='space-y-3'>
+                <form onSubmit={createActivity} className='space-y-3'>
                     <div className='px-4 h-14 bg-zinc-950 border-l-zinc-800 rounded-lg flex items-center flex-1 gap-2'>
                         <Tag className='text-zinc-400 size-5' />
                         <input
-                            name="title"
-                            id="activity-title"
+                            name="title"                            
                             placeholder="Qual a atividade?"
                             className="bg-transparent text-lg placeholder-zinc-400 w-32 outline-none flex-1"
                         />
@@ -35,9 +60,7 @@ export default function CreateActivityModal({ handleCreateActivity }: CreateActi
                             <Calendar className='text-zinc-400 size-5' />
                             <input
                                 type="datetime-local"
-                                name="email"
-                                id=""
-                                placeholder="Seu e-mail pessoal"
+                                name="occurs_at"                                
                                 className="bg-transparent text-lg placeholder-zinc-400 w-32 outline-none flex-1"
                             />
                         </div>
