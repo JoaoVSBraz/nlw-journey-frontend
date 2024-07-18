@@ -25,7 +25,7 @@ export default function CreateActivityModal({ handleCreateActivity }: CreateActi
         
         try {
            await api.post(`/trips/${tripId}/activities`, options);
-           handleCreateActivity();          
+           window.location.reload();          
         } catch (error) {
             console.log(error);
         }
