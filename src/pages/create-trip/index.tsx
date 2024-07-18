@@ -20,7 +20,7 @@ export function CreateTripPage() {
 
     const [destination, setDestination] = useState('');
     const [eventStartAndEndDate, setEventStartAndEndDate] = useState<DateRange | undefined>();
-    const [emailList, setEmailList] = useState(['joao.braz@gmail.com']);
+    const [emailList, setEmailList] = useState<string[]>([]);
     const [ownerName, setOwnerName] = useState('');
     const [ownerEmail, setOwnerEmail] = useState('');
 
