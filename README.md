@@ -10,6 +10,7 @@ Plann.er is an application where you can create and manage events and invite som
 - [Learnings](#learnings)
     - [React Router](#react-router)
     - [Component Props](#component-props)
+    - [Generic Types](#generic-types)
     - [Tailwind Variants](#tailwind-variants)
     - [React Day Picker](#react-day-picker)
 - [Next Steps](#next-steps)
